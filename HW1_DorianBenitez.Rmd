@@ -1,0 +1,115 @@
+----------
+Name: Dorian Benitez (drb160130)
+Title: "Homework 1"
+Course: CS 4375.001
+-----------
+
+# Step 1
+
+This data set represents the housing values in the Suburbs of Boston. It is composed of 506 observation cases and 14 attributes to each observation. 
+
+```{r step1}
+library(MASS)
+data(Boston)
+str(Boston)
+?Boston
+```
+
+
+# Step 2
+
+Displays the first few rows, last 2 rows, row #5, first few rows of column 1, and the variable names.
+
+```{r step2}
+head(Boston)
+tail(Boston, 2)
+Boston[5,]
+head(Boston[,1])
+names(Boston)
+```
+
+
+# Step 3
+
+Displays the mean, median, and range of the per capita crime rate of Boston. 
+
+```{r step3}
+mean(Boston$crim)
+median(Boston$crim)
+range(Boston$crim)
+```
+
+
+# Step 4
+
+This histogram represents the Boston per capita crime rate and the frequency of the number of crimes that occur.
+
+```{r step4}
+hist(Boston$crim, main="Boston Crime Rate")
+```
+
+
+# Step 5
+
+The correlation value between crime and median house value is equal to -0.3883046, on a sclae of -1 to 1. This correlation represents that the crime column is not very useful in predicting the median house value. 
+
+```{r step5}
+cor(Boston$crim, Boston$medv)
+```
+
+
+# Step 6
+
+The plotted graph and correlation between these 2 variables shows that the number of rooms per dwelling can be useful in predicting the median house value.
+
+```{r step6}
+plot(Boston$rm, Boston$medv, col.lab="red", col.main="blue", xlab="# of Rooms", ylab="Median Value", main="Median Value vs. Rooms", font.lab="4", font.main="2")
+cor(Boston$medv, Boston$rm)
+```
+
+
+# Step 7
+
+Initially plotting the data, the first graph shows the values as being either 0 or 1. After making chas a factor, the new plot shows the values as being either "off" or "on" the Charles River.
+
+```{r step7}
+plot(Boston$chas, Boston$medv)
+Boston$chas = factor(Boston$chas, levels = c(0, 1), labels = c("off", "on"))
+plot(Boston$chas, Boston$medv)
+```
+
+
+# Step 8
+
+In the Boston dataset, 'rad' is an integer variable that represents an index value of accessibility to radial highways. When using the "summary(Boston$rad)" function, we are given a detailed summary of the data object including it's min and max values, median, mean, etc. The "unique()" function also works to provide an overview of all the unique values included within the table column, without showing any duplicates. The percentage of neighborhoods that have rad=24 is 26.08696. 
+
+```{r step8}
+summary(Boston$rad)
+unique(Boston$rad)
+sum(Boston$rad == 24)
+radPercentage <- (sum(Boston$rad == 24) / nrow(Boston) * 100)
+radPercentage
+```
+
+
+# Step 9
+
+This plot graph resembles the median value of a home and whether it has a rad value of 24 or not. 
+
+```{r step9}
+Boston$far <- ifelse(Boston$rad==24, TRUE, FALSE)
+Boston$far <- factor(Boston$far)
+plot(Boston$far, Boston$medv)
+```
+
+
+# Step 10
+
+When comparing this neighborhood to the city as a whole, there are many discrepancies that may resemble why this area has a higher median value than others. In terms of crime, there is a much lower rate in this neighborhood (1.463) when compared to the average crime rate of the city (3.612). This neighborhood also has a greater number of rooms per dwelling (7.489) than the average of the city (6.284). Also, one of the most notable differences between this neighborhood and the the city is the lower economic percentile which falls at 1.73, compared to the city average of 12.653. Finally, the average median home value of this neighborhood falls at 50, which is much greater than the city average of 22.532. 
+
+```{r step10}
+summary(Boston[,c(1,6,13,14)])
+i = which.max(Boston$medv)
+Boston[i, c(1,6,13,14)]
+```
+
